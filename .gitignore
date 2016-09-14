@@ -1,0 +1,4 @@
+.vagrant
+.env
+context.json
+deploy.env
