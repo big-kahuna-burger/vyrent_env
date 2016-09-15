@@ -1,0 +1,21 @@
+{
+  "name": "vyrent-base",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "node-lambda setup",
+    "test": "mocha test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "auth0": "^2.3.1",
+    "bluebird": "^3.4.6",
+    "chai": "^3.5.0",
+    "dotenv": "^2.0.0",
+    "jsonwebtoken": "^7.1.9",
+    "request": "^2.74.0",
+    "request-promise": "^4.1.1"
+  }
+}

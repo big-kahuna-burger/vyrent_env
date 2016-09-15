@@ -1,0 +1,13 @@
+{
+  "params": {
+    "header":{
+      "headerFoo": "headerFoo"
+    },
+    "path": {
+      "pathFoo": "pathBar"
+    }
+  },
+  "body-json": {
+    "bodyFoo": "bodyBar"
+  }
+}

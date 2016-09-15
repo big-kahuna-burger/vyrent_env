@@ -1,4 +1,6 @@
 .vagrant
+.vscode
+node_modules
 .env
 context.json
 deploy.env
