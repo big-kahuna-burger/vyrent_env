@@ -27,7 +27,7 @@ This is Vagrant Machine that contains required tools to create Lambda functions 
     4. Vagrant:
         * Box on Atlas
         * PORT map(guest->host):
-            * 3000->3001
+            * 3000->3002(If no collision)
 ### Setup
     1. Install Vagrant
     2. Clone project
