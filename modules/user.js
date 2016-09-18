@@ -24,7 +24,7 @@ exports.createUserWithExternalId = function(externalId){
             },
             resolveWithFullResponse: true,
             headers: {
-                'Prefer': 'plurality=singular;return=representation'
+                'Prefer': 'return=representation'
             }
         });
 };
@@ -36,7 +36,7 @@ exports.deleteUserWithExternalId = function(externalId){
             json: true,
             resolveWithFullResponse: true,
             headers: {
-                'Prefer': 'plurality=singular;return=representation'
+                'Prefer': 'return=representation'
             }
         })
 };
