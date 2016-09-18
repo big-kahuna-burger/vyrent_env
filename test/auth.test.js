@@ -6,7 +6,7 @@ var expect = require('chai').expect;
 var Auth = require('../modules/auth');
 var User = require('../modules/user');
 
-var dummyProfile = {
+var dummyAdminProfile = {
     user_id: 'auth0|123',
     role: 'admin'
 }
@@ -18,13 +18,13 @@ var fakeProfile = {
     user_id: 'auth0|123',
     role: 'admin'
 }
-var dummyToken = jwt.sign(dummyProfile, new Buffer(process.env.AUTH0_SECRET, 'base64'));
+var dummyAdminToken = jwt.sign(dummyAdminProfile, new Buffer(process.env.AUTH0_SECRET, 'base64'));
 var dummyNotAvailableToken = jwt.sign(dummyNotAvailableProfile, new Buffer(process.env.AUTH0_SECRET, 'base64'));
-var fakeToken = jwt.sign(dummyProfile, new Buffer('fakeSecret', 'base64'));
+var fakeToken = jwt.sign(dummyAdminProfile, new Buffer('fakeSecret', 'base64'));
 
 describe('Auth Module', function () {
     before(function (done) {
-        User.createUserWithExternalId(dummyProfile.user_id)
+        User.createUserWithExternalId(dummyAdminProfile.user_id)
             .then(function (response) {
                 done();
             })
@@ -33,15 +33,19 @@ describe('Auth Module', function () {
             });
     });
     it('should get an existing user from a valid token', function (done) {
-        Auth.getUserOfToken(dummyToken)
+        Auth.getUserOfToken(dummyAdminToken)
             .then(function (user) {
-                expect(user.profile.user_id).to.be.equal(dummyProfile.user_id);
-                expect(user.profile.role).to.be.equal(dummyProfile.role);
-                expect(user.user.external_id).to.be.equal(dummyProfile.user_id);
+                expect(user.profile.user_id).to.be.equal(dummyAdminProfile.user_id);
+                expect(user.profile.role).to.be.equal(dummyAdminProfile.role);
+                expect(user.user.external_id).to.be.equal(dummyAdminProfile.user_id);
                 done();
             }).catch(function (err) {
                 done(err);
             })
+    });
+    it('should isAdmin return true for admin User', function(done){
+        expect(Auth.isAdmin(dummyAdminProfile)).to.be.equal(true);
+        done();
     });
     it('should not get user from a fake token', function (done) {
         Auth.getUserOfToken(fakeToken)
@@ -59,10 +63,10 @@ describe('Auth Module', function () {
             }).catch(function (err) {
                 expect(err.statusCode).to.be.equal(404);
                 done();
-            })
+            });
     });
     after(function (done) {
-        User.deleteUserWithExternalId(dummyProfile.user_id)
+        User.deleteUserWithExternalId(dummyAdminProfile.user_id)
             .then(function (response) {
                 done();
             })

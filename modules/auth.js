@@ -34,13 +34,13 @@ exports.getUserProfile = function (token) {
             var payload = jwt.verify(token, signiture);
             if (payload.iss && payload.iss.indexOf(process.env.AUTH0_DOMAIN) > -1) {
                 auth0.tokens.getInfo(token)
-                    .then(function(profile){
+                    .then(function (profile) {
                         resolve(profile);
-                    }).catch(function(err){
+                    }).catch(function (err) {
                         reject(err);
                     });
             }
-            else{
+            else {
                 resolve(payload);
             }
         } catch (err) {
@@ -48,3 +48,12 @@ exports.getUserProfile = function (token) {
         }
     });
 }
+
+exports.isAdmin = function (profile) {
+    if(profile.role && profile.role === 'admin') {
+        return true;
+    }
+    else{
+        return false;
+    }
+};
