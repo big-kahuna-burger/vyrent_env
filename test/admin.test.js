@@ -68,10 +68,10 @@ describe('Admin Module', function(){
                     done(err);
                 });
         });
-        it('should get all vendors with initial status', function(done){
+        it('should return two vendors with initial status', function(done){
             Admin.getInitialVendors()
                 .then(function(response){
-                    expect(response.body.length).to.be.above(0);
+                    expect(response.body.length).to.be.equal(2);
                     response.body.forEach(function(vendor){
                         expect(vendor.status).to.be.equal('initial');
                     });
@@ -86,6 +86,51 @@ describe('Admin Module', function(){
                 .then(function(response){
                     dummyVendor1 = response.body;
                     expect(dummyVendor1.status).to.be.equal('approved');
+                    done();
+                })
+                .catch(function (err) {
+                    done(err);
+                });
+        });
+        it('should return one vendor with initial status', function(done){
+            Admin.getInitialVendors()
+                .then(function(response){
+                    expect(response.body.length).to.be.equal(1);
+                    response.body.forEach(function(vendor){
+                        expect(vendor.status).to.be.equal('initial');
+                    });
+                    done();
+                })
+                .catch(function (err) {
+                    done(err);
+                });
+        });
+        it('should decline a vendor', function(done){
+            Admin.declineVendor(dummyVendor2.id)
+                .then(function(response){
+                    dummyVendor2 = response.body;
+                    expect(dummyVendor1.status).to.be.equal('decliend');
+                    done();
+                })
+                .catch(function (err) {
+                    done(err);
+                });
+        });
+        it('should return no vendor with initial status', function(done){
+            Admin.getInitialVendors()
+                .then(function(response){
+                    expect(response.body.length).to.be.equal(0);
+                    done();
+                })
+                .catch(function (err) {
+                    done(err);
+                });
+        });
+        it('should trust a vendor', function(done){
+            Admin.trustVendor(dummyVendor1.id)
+                .then(function(response){
+                    dummyVendor1 = response.body;
+                    expect(dummyVendor1.status).to.be.equal('trusted');
                     done();
                 })
                 .catch(function (err) {

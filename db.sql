@@ -36,7 +36,8 @@ DROP TYPE IF EXISTS public.vendor_status;
 CREATE TYPE public.vendor_status AS ENUM
    ('trusted',
     'approved',
-    'initial');
+    'initial',
+    'decliend');
 ALTER TYPE public.vendor_status
   OWNER TO postgres;
 
