@@ -109,7 +109,7 @@ describe('Admin Module', function(){
             Admin.declineVendor(dummyVendor2.id)
                 .then(function(response){
                     dummyVendor2 = response.body;
-                    expect(dummyVendor1.status).to.be.equal('decliend');
+                    expect(dummyVendor2.status).to.be.equal('declined');
                     done();
                 })
                 .catch(function (err) {

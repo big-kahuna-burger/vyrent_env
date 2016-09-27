@@ -4,14 +4,14 @@ var postgrestUrl = process.env.POSTGREST_URL;
 
 exports.getUserWithExternalId = function (externalId) {
     return rp({
-        uri: postgrestUrl + '/Users?external_id=eq.' + externalId,
-        method: 'GET',
-        json: true,
-        resolveWithFullResponse: true,
-        headers:{
-            'Prefer': 'plurality=singular'
-        }
-    });
+            uri: postgrestUrl + '/Users?external_id=eq.' + externalId,
+            method: 'GET',
+            json: true,
+            resolveWithFullResponse: true,
+            headers:{
+                'Prefer': 'plurality=singular'
+            }
+        });
 };
 
 exports.createUserWithExternalId = function(externalId){
