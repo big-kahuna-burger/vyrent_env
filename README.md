@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/big-kahuna-burger/vyrent_env.png?label=ready&title=Ready)](https://waffle.io/big-kahuna-burger/vyrent_env)
 ## Vyrent Environment
 This is Vagrant Machine that contains required tools to create Lambda functions for Vyrent.
 
