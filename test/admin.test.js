@@ -35,13 +35,9 @@ var dummyVendor2Properties = {
 }
 var dummyVendor2;
 
-var dummyAdminToken = jwt.sign(dummyAdminProfile, new Buffer(process.env.AUTH0_SECRET, 'base64'));
-var dummyUserToken1 = jwt.sign(dummyUser1Profile, new Buffer(process.env.AUTH0_SECRET, 'base64'));
-var dummyUserToken2 = jwt.sign(dummyUser2Profile, new Buffer(process.env.AUTH0_SECRET, 'base64'));
 describe('Admin Module', function(){
     before(function(done){
-        User.createUserWithExternalId(dummyAdminProfile.user_id)
-            .then(User.createUserWithExternalId(dummyUser1Profile.user_id))
+        User.createUserWithExternalId(dummyUser1Profile.user_id)
             .then(function(response){
                 dummyUser1 = response.body;
                 return User.createUserWithExternalId(dummyUser2Profile.user_id);
@@ -150,8 +146,7 @@ describe('Admin Module', function(){
         });
     });
     after(function (done) {
-        User.deleteUserWithExternalId(dummyAdminProfile.user_id)
-            .then(User.deleteUserWithExternalId(dummyUser1Profile.user_id))
+        User.deleteUserWithExternalId(dummyUser1Profile.user_id)
             .then(User.deleteUserWithExternalId(dummyUser2Profile.user_id))
             .then(function (response) {
                 done();
@@ -160,4 +155,4 @@ describe('Admin Module', function(){
                 done(err);
             });
     });
-})
+});
