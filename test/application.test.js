@@ -53,7 +53,7 @@ var dummyWatchProperties = {
     "featured": false
 };
 var dummyWatch;
-
+var dummyWatch2;
 var dummyApplication;
 
 describe('Application Module', function () {
@@ -69,13 +69,19 @@ describe('Application Module', function () {
             })
             .then(function (response) {
                 dummyWatch = response.body;
+            })
+            .then(function (response) {
+                return Watch.createWatchForVendor(dummyVendor.id, dummyWatchProperties);
+            })
+            .then(function (response) {
+                dummyWatch2 = response.body;
                 done();
             })
             .catch(function (err) {
                 done(err);
             });
     });
-    it('should starts an application for a user', function (done) {
+    it('should start an application for a user', function (done) {
         Application.createApplicationForUser(dummyUser.id, {})
             .then(function (response) {
                 dummyApplication = response.body;
@@ -117,7 +123,7 @@ describe('Application Module', function () {
             });
 
     });
-    it('should remove watch from application', function (done) {
+    it('should remove second watch from application', function (done) {
         Application.removeWatch(dummyApplication.id, dummyWatch2.id)
             .then(function (response) {
                 done();
@@ -130,7 +136,7 @@ describe('Application Module', function () {
     it('should submit an application', function (done) {
         Application.submitApplication(dummyApplication.id)
             .then(function (response) {
-                var dummyApplication = response.body;
+                var dummyApplication = response.body[0];
                 expect(dummyApplication.status).to.be.equal('pending');
                 done();
             })
@@ -140,6 +146,7 @@ describe('Application Module', function () {
     });
     after(function (done) {
         Watch.deleteWatch(dummyWatch.id)
+            .then(Watch.deleteWatch(dummyWatch2.id))
             .then(Vendor.deleteForceVendor(dummyVendor.id))
             .then(User.deleteUserWithExternalId(dummyUserProfile.user_id))
             .then(function (response) {

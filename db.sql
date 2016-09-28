@@ -73,10 +73,10 @@ CREATE TABLE public."User_Vendor"
   CONSTRAINT user_vendor_id_pk PRIMARY KEY (user_id, vendor_id),
   CONSTRAINT user_vendor_user_id_fk FOREIGN KEY (user_id)
       REFERENCES public."Users" (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
+      ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT user_vendor_vendor_id_fk FOREIGN KEY (vendor_id)
       REFERENCES public."Vendors" (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE CASCADE
 )
 WITH (
   OIDS=FALSE
@@ -135,7 +135,7 @@ CREATE TABLE public."Watches"
   CONSTRAINT watches_pk PRIMARY KEY (id),
   CONSTRAINT watches_vendor_id_fk FOREIGN KEY (vendor_id)
       REFERENCES public."Vendors" (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE CASCADE
 )
 WITH (
   OIDS=FALSE
@@ -173,13 +173,13 @@ CREATE TABLE public."Applications"
 (
   id uuid NOT NULL DEFAULT uuid_generate_v4(),
   user_id uuid NOT NULL,
-  status application_status NOT NULL DEFAULT 'pending'::application_status,
+  status application_status NOT NULL DEFAULT 'draft'::application_status,
   created_at date NOT NULL DEFAULT now(),
   updated_at date NOT NULL DEFAULT now(),
   CONSTRAINT applications_pk PRIMARY KEY (id),
   CONSTRAINT applications_user_id_fk FOREIGN KEY (user_id)
       REFERENCES public."Users" (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE CASCADE
 )
 WITH (
   OIDS=FALSE
@@ -233,10 +233,10 @@ CREATE TABLE public."Application_Watches"
   CONSTRAINT applications_watches_pk PRIMARY KEY (watch_id, application_id),
   CONSTRAINT application_watches_fk FOREIGN KEY (application_id)
       REFERENCES public."Applications" (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
+      ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT applications_watch_fk FOREIGN KEY (watch_id)
       REFERENCES public."Watches" (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE CASCADE
 )
 WITH (
   OIDS=FALSE
