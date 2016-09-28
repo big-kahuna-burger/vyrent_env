@@ -5,3 +5,4 @@ node_modules
 context.json
 event.json
 deploy.env
+/*.tgitconfig
