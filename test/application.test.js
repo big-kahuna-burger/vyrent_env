@@ -81,6 +81,16 @@ describe('Application Module', function () {
                 done(err);
             });
     });
+    it('should fail to delete non-existing application', function (done) {
+        Application.deleteApplication('00000000-0000-0000-0000-000000000000')
+        .then(function (response) {
+            done(response);
+        })
+        .catch(function (err) {
+            expect(err.statusCode).to.be.equal(404);
+            done();
+        });
+    });
     it('should start an application for a user', function (done) {
         Application.createApplicationForUser(dummyUser.id, {})
             .then(function (response) {
