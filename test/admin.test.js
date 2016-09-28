@@ -36,7 +36,8 @@ var dummyVendor2Properties = {
 var dummyVendor2;
 
 var dummyAdminToken = jwt.sign(dummyAdminProfile, new Buffer(process.env.AUTH0_SECRET, 'base64'));
-
+var dummyUserToken1 = jwt.sign(dummyUser1Profile, new Buffer(process.env.AUTH0_SECRET, 'base64'));
+var dummyUserToken2 = jwt.sign(dummyUser2Profile, new Buffer(process.env.AUTH0_SECRET, 'base64'));
 describe('Admin Module', function(){
     before(function(done){
         User.createUserWithExternalId(dummyAdminProfile.user_id)
@@ -84,7 +85,7 @@ describe('Admin Module', function(){
         it('should approve a vendor', function(done){
             Admin.approveVendor(dummyVendor1.id)
                 .then(function(response){
-                    dummyVendor1 = response.body;
+                    dummyVendor1 = response.body[0];
                     expect(dummyVendor1.status).to.be.equal('approved');
                     done();
                 })
@@ -108,7 +109,7 @@ describe('Admin Module', function(){
         it('should decline a vendor', function(done){
             Admin.declineVendor(dummyVendor2.id)
                 .then(function(response){
-                    dummyVendor2 = response.body;
+                    dummyVendor2 = response.body[0];
                     expect(dummyVendor2.status).to.be.equal('declined');
                     done();
                 })
@@ -129,7 +130,7 @@ describe('Admin Module', function(){
         it('should trust a vendor', function(done){
             Admin.trustVendor(dummyVendor1.id)
                 .then(function(response){
-                    dummyVendor1 = response.body;
+                    dummyVendor1 = response.body[0];
                     expect(dummyVendor1.status).to.be.equal('trusted');
                     done();
                 })
