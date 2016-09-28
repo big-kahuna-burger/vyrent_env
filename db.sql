@@ -101,3 +101,84 @@ CREATE INDEX fki_user_vendor_vendor_id_fk
   ON public."User_Vendor"
   USING btree
   (vendor_id);
+
+-- Table: public."Watches"
+
+DROP TABLE IF EXISTS public."Watches";
+
+CREATE TABLE public."Watches"
+(
+  id uuid NOT NULL DEFAULT uuid_generate_v4(),
+  model text NOT NULL,
+  version text,
+  reference_number text,
+  gender text,
+  retail_price text,
+  cost_price text,
+  description text,
+  movement text,
+  case_diameter text,
+  case_material text,
+  bezel text,
+  band text,
+  band_material text,
+  clasp text,
+  accessories text,
+  vyrent_sku text,
+  year text,
+  created_at date NOT NULL DEFAULT now(),
+  updated_at date NOT NULL DEFAULT now(),
+  brand text,
+  pictures json,
+  vendor_id uuid NOT NULL,
+  featured boolean DEFAULT false,
+  CONSTRAINT watches_pk PRIMARY KEY (id),
+  CONSTRAINT watches_vendor_id_fk FOREIGN KEY (vendor_id)
+      REFERENCES public."Vendors" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public."Watches"
+  OWNER TO postgres;
+
+-- Index: public.fki_watches_vendor_id_fk
+
+DROP INDEX IF EXISTS public.fki_watches_vendor_id_fk;
+
+CREATE INDEX fki_watches_vendor_id_fk
+  ON public."Watches"
+  USING btree
+  (vendor_id);
+
+-- Table: public."Applications"
+
+DROP TABLE IF EXISTS public."Applications";
+
+CREATE TABLE public."Applications"
+(
+  id uuid NOT NULL DEFAULT uuid_generate_v4(),
+  user_id uuid NOT NULL,
+  status application_status NOT NULL DEFAULT 'pending'::application_status,
+  created_at date NOT NULL DEFAULT now(),
+  updated_at date NOT NULL DEFAULT now(),
+  CONSTRAINT applications_pk PRIMARY KEY (id),
+  CONSTRAINT applications_user_id_fk FOREIGN KEY (user_id)
+      REFERENCES public."Users" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public."Applications"
+  OWNER TO postgres;
+
+-- Index: public.fki_applications_user_id_fk
+
+DROP INDEX IF EXISTS public.fki_applications_user_id_fk;
+
+CREATE INDEX fki_applications_user_id_fk
+  ON public."Applications"
+  USING btree
+  (user_id);
