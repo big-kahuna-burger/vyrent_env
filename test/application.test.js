@@ -147,9 +147,10 @@ describe('Application Module', function () {
     after(function (done) {
         Watch.deleteWatch(dummyWatch.id)
             .then(Watch.deleteWatch(dummyWatch2.id))
+            .then(Application.deleteApplication(dummyApplication.id))
             .then(Vendor.deleteForceVendor(dummyVendor.id))
             .then(User.deleteUserWithExternalId(dummyUserProfile.user_id))
-            .then(function (response) {
+            .then(function(response){
                 done();
             })
             .catch(function (err) {

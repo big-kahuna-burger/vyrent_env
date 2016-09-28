@@ -3,13 +3,12 @@ var rp = require('request-promise');
 var postgrestUrl = process.env.POSTGREST_URL;
 
 exports.createApplicationForUser = function (userId, app) {
+    app.user_id = userId;
     return rp({
             uri: postgrestUrl + '/Applications',
             method: 'POST',
             json: true,
-            body: {
-                "user_id" : userId
-            },
+            body: app,
             resolveWithFullResponse: true,
             headers: {
                 'Prefer': 'return=representation'
@@ -56,6 +55,18 @@ exports.submitApplication = function (applicationId) {
             body: {
                 "status" : "pending"
             },
+            resolveWithFullResponse: true,
+            headers: {
+                'Prefer': 'return=representation'
+            }
+    });
+};
+
+exports.deleteApplication = function (applicationId) {
+    return rp({
+        uri: postgrestUrl + '/Applications?id=eq.' + applicationId,
+            method: 'DELETE',
+            json: true,
             resolveWithFullResponse: true,
             headers: {
                 'Prefer': 'return=representation'
